@@ -1,0 +1,31 @@
+# 基本は3
+version: '3'
+
+volumes:
+  db-data:
+services:
+  web:
+    build: .
+    ports:
+      - '3000:3000'
+    volumes:
+      - '.:/product-register'
+    environment:
+      - 'DATABASE_PASSWORD=postgres'
+    # 下二行は-itと同じ役割
+    tty: true
+    stdin_open: true
+    # webのコンテナはdepends_onのサービスが出来上がったら立ち上がる
+    depends_on:
+      - db
+    # これでwebとdbを繋いでいる
+    links:
+      - db
+
+  db:
+    image: postgres
+    volumes:
+      - 'db-data:/var/lib/postgresql/data'
+    environment:
+    - 'POSTGRES_USER=postgres'
+    - 'POSTGRES_PASSWORD=postgres'
