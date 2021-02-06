@@ -9,4 +9,4 @@ RUN apt-get install -y\
 
 WORKDIR /product-register
 COPY Gemfile Gemfile.lock /product-register/
-RUN bundle update && bundle install
+RUN bundle install
